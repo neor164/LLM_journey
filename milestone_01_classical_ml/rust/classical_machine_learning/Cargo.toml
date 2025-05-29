@@ -1,0 +1,16 @@
+[package]
+name = "classical_machine_learning"
+version = "0.1.0"
+edition = "2024"
+[lib]
+name = "classical_machine_learning_py" # Name of the Python module
+crate-type = ["cdylib"] # Compile to a dynamic system library
+
+[dependencies]
+num-traits = "0.2" 
+rand = "0.8"
+ordered-float = "4.2.0" 
+serde = { version = "1.0", features = ["derive"], optional = true } 
+[dependencies.pyo3]
+version = "0.21.0" # Or the latest version
+features = ["extension-module"]
