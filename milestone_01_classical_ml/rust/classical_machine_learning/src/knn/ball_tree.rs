@@ -5,8 +5,7 @@ use std::iter::Sum; // Keep this import
 use rand::seq::SliceRandom; // For random sampling
 use rand::thread_rng;       // For random number generator
 use super::heap_utils::KBestNeighbors; // Import shared heap utilities
-
-use super::knn::DataPoint; 
+use crate::common_types::DataPoint;
 
 pub fn mean<F>(vector: &[F]) -> F
 where
@@ -770,7 +769,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::knn::knn::DataPoint; 
+    use crate::common_types::DataPoint;
     use std::panic;
 
     // Helper to create DataPoint<f64, i32> for tests

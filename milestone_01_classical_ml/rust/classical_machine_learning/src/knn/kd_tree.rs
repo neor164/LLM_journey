@@ -1,7 +1,7 @@
 //! This module will contain the k-d tree implementation.
 
 use num_traits::{Float, AsPrimitive}; // Ensure this is at the top
-use super::knn::DataPoint; 
+use crate::common_types::DataPoint;
 use rand::seq::SliceRandom; // For random sampling
 use rand::thread_rng; // For random number generator
 use super::heap_utils::KBestNeighbors; // Import shared heap utilities
@@ -353,7 +353,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::{KdTree, TreeNode, KBestNeighbors}; // Added KBestNeighbors, HeapElement for potential direct tests
-    use crate::knn::knn::DataPoint; // DataPoint is in the nested knn module
+    use crate::common_types::DataPoint;
     use std::panic;
 
     // Helper to create DataPoint<f64, i32> for tests

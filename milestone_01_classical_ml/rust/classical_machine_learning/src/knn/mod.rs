@@ -13,12 +13,7 @@ pub mod ball_tree; // Added ball_tree module
 pub mod heap_utils; // Added heap_utils module
 
 pub mod knn{
-    #[derive(Debug, Clone)]
-    pub struct DataPoint<F, L> { // DataPoint struct definition
-        pub features: Vec<F>,
-        pub label: L,}
-
-    /// Defines the search strategy to be used by the KNN classifier.
+    use crate::common_types::DataPoint;
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub enum SearchStrategy {
         BruteForce,
@@ -81,14 +76,7 @@ pub mod knn{
             }    
         }
 
-        /// Trains the classifier.
-        /// This method stores the training data and dynamically chooses a search strategy:
-        /// - Brute-force: If the number of training points `N` is less than `N_THRESHOLD_FOR_BRUTE_FORCE`.
-        /// - K-d tree: If `N` is larger and dimensionality `k_dimensions` is less than `K_DIMENSIONS_THRESHOLD_FOR_KD_VS_BALL`.
-        /// - Ball tree: If `N` is larger and `k_dimensions` is high.
-        ///
-        /// If `strategy_override` is `Some`, that strategy will be used regardless of heuristics.
-        /// Any existing training data and search structures will be replaced.
+
         pub fn fit(&mut self, training_data: Vec<DataPoint<F, L>>, strategy_override: Option<SearchStrategy>) {
             // Clear previous state
             self.kd_tree = None;
@@ -428,8 +416,8 @@ mod tests {
     // Import items from the knn module to make KnnClassifier accessible.
     // KnnDistnce is in the global scope from super::*
     use super::knn::KnnClassifier;
-    use super::knn::SearchStrategy; // Import SearchStrategy for tests
-    use super::knn::DataPoint; // For creating test data // Corrected import path
+    use super::knn::SearchStrategy;
+    use crate::common_types::DataPoint; // For creating test data
 
     #[test]
     fn test_minkowski_distance() { // Renamed test function to match method

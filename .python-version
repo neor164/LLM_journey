@@ -1,1 +1,4 @@
 3.12
+git remote add origin https://github.com/neor164/LLM_journey.git
+git branch -M main
+git push -u origin main

@@ -1,12 +1,14 @@
 
 // Declare your algorithm modules
 pub mod knn;
-// pub mod svm; // Commented out unused modules
+pub mod common_types;
+pub mod svm; // Declare the new svm module
 // pub mod decision_tree;
 // pub mod random_forest;
 // pub mod gradient_boosting;
 
-use knn::knn::{DataPoint, KnnClassifier, SearchStrategy as RustSearchStrategy};
+use common_types::DataPoint; // DataPoint is now directly from common_types
+use knn::knn::{KnnClassifier, SearchStrategy as RustSearchStrategy}; // KnnClassifier and SearchStrategy from knn::knn
 use knn::KnnDistance;
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyList};
