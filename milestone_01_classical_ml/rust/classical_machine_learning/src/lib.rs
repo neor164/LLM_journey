@@ -2,10 +2,9 @@
 // Declare your algorithm modules
 pub mod knn;
 pub mod common_types;
+pub mod trees;
 pub mod svm; // Declare the new svm module
-// pub mod decision_tree;
-// pub mod random_forest;
-// pub mod gradient_boosting;
+
 
 use common_types::DataPoint; // DataPoint is now directly from common_types
 use knn::knn::{KnnClassifier, SearchStrategy as RustSearchStrategy}; // KnnClassifier and SearchStrategy from knn::knn
