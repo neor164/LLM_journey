@@ -34,7 +34,7 @@ where
     // Dedup based on partial equality.
     // This is important for floats where direct equality (==) might be problematic
     // if not for Ord, but dedup_by works with a custom comparison.
-    values.dedup_by(|a, b| a.partial_cmp(b) == Some(std::cmp::Ordering::Equal));
+    values.dedup_by(|a, b| (*a).partial_cmp(&*b) == Some(std::cmp::Ordering::Equal));
 
     values
 }
@@ -68,9 +68,7 @@ where
         return None;
     }
 
-    // Choose a threshold: the midpoint between the two central unique values.
-    // If odd number of unique values (e.g., v0, v1, v2), mid_idx = 1. Use (v0+v1)/2 or (v1+v2)/2.
-    // If even (e.g., v0, v1, v2, v3), mid_idx = 2. Use (v1+v2)/2.
+
     let mid_point_idx = unique_sorted_values.len() / 2;
     // Ensure we use indices [mid_point_idx - 1] and [mid_point_idx]
     let threshold = (unique_sorted_values[mid_point_idx - 1] + unique_sorted_values[mid_point_idx]) / F::from_f64(2.0).unwrap();
@@ -81,7 +79,6 @@ where
     for dp in data.iter() {
         let feature_val = dp.features[feature_idx];
         if feature_val.is_nan() {
-            // Handle NaNs: for simplicity, send to right. Could be a parameter or other strategy.
             right_subset.push(dp.clone());
             continue;
         }
@@ -93,7 +90,6 @@ where
     }
 
     if left_subset.is_empty() || right_subset.is_empty() {
-        // This threshold didn't effectively split the data into two non-empty sets.
         return None;
     }
 
@@ -312,8 +308,8 @@ where
             return Some(Box::new(Node::Leaf { value: self.calculate_majority_label(current_data)? }))
         }
         let mut best_gain = -F::infinity(); 
-        let mut best_feature_index: Option<usize> = None; // Added type annotation and made mutable
-        let mut best_split_rule: Option<SplitRule<F>> = None; // Added type annotation and made mutable
+        let mut best_feature_index: Option<usize> = None; 
+        let mut best_split_rule: Option<SplitRule<F>> = None;
         let mut best_left_data: Option<Vec<DataPoint<F, L>>> = None;
         let mut best_right_data: Option<Vec<DataPoint<F, L>>> = None;
         let parent_impurity = self.calculate_impurity(current_data);
@@ -362,7 +358,6 @@ where
             }
         }
 
-        // If no good split was found, or children couldn't be built, make this a leaf node.
         Some(Box::new(Node::Leaf { value: self.calculate_majority_label(current_data)? }))
 
     }
@@ -398,10 +393,8 @@ where
         }
     }
 
-    // TODO: Helper methods for building tree, calculating impurity, finding best split, traversing tree etc.
 }
 
-// TODO: Add unit tests for DecisionTreeClassifier
 #[cfg(test)]
 mod tests {
     use super::*;
